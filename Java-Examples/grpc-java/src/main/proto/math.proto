@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "edu.learn.grpc.examples.math";
+option java_outer_classname = "MathProto";
+option objc_class_prefix = "HLW";
+
+package math;
+
+// The math service definition.
+service Math {
+  // Sends a math operation
+  rpc Add (NumberRequest) returns (OperationReply) {}
+  rpc Subtract (NumberRequest) returns (OperationReply) {}
+  rpc Multiply (NumberRequest) returns (OperationReply) {}
+  rpc Divide (NumberRequest) returns (OperationReply) {}
+}
+
+// The request message containing the user's name.
+message NumberRequest {
+  double number1 = 1;
+  double number2 = 2;
+}
+
+// The response message containing the greetings
+message OperationReply {
+  double result = 1;
+}
