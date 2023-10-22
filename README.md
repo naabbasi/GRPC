@@ -1,6 +1,6 @@
 # GRPC
 
-``` /bin/sh
+```shell
 grpcurl --plaintext localhost:9090 list
 
 grpcurl --plaintext localhost:9090 list helloworld.Greeter

@@ -2,6 +2,7 @@ package edu.learn.grpc.examples.math;
 
 import io.grpc.*;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +11,7 @@ public class MathClient {
     private static final Logger logger = Logger.getLogger(MathClient.class.getName());
 
     private final MathGrpc.MathBlockingStub blockingStub;
+    private final MathGrpc.MathFutureStub futureStub;
 
     /**
      * Construct client for accessing HelloWorld server using the existing channel.
@@ -20,6 +22,7 @@ public class MathClient {
 
         // Passing Channels to code makes code easier to test and makes it easier to reuse Channels.
         blockingStub = MathGrpc.newBlockingStub(channel);
+        this.futureStub = MathGrpc.newFutureStub(channel);
     }
 
     /**
@@ -33,7 +36,7 @@ public class MathClient {
                 .build();
         OperationReply operationReply;
         try {
-            operationReply = blockingStub.add(numberRequest);
+            operationReply = this.futureStub.add(numberRequest).get();
             logger.info("Add result: " + operationReply.getResult());
 
             operationReply = blockingStub.subtract(numberRequest);
@@ -46,6 +49,8 @@ public class MathClient {
             logger.info("Divide result: " + operationReply.getResult());
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 

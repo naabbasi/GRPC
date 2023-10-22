@@ -1,4 +1,4 @@
-package edu.learn.grpc.examples.services.grpc.helloworld;
+package edu.learn.grpc.examples.services.grpc.math;
 
 import edu.learn.grpc.examples.math.MathGrpc.MathImplBase;
 import edu.learn.grpc.examples.math.NumberRequest;
